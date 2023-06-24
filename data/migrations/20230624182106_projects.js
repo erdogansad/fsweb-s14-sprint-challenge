@@ -16,15 +16,15 @@ exports.up = function (knex) {
       tbl.string("task_description").notNullable();
       tbl.string("task_notes");
       tbl.boolean("task_completed").defaultTo(0);
-      tbl.integer("project_id").references("projects").inTable("project_id");
+      tbl.integer("project_id").references("project_id").inTable("projects").onDelete("CASCADE").onUpdate("CASCADE");
     })
     .createTable("project_resources", (tbl) => {
       tbl.increments();
-      tbl.integer("project_id").references("projects").inTable("project_id");
-      tbl.integer("resource_id").references("resources").inTable("resource_id");
+      tbl.integer("project_id").references("project_id").inTable("projects").onDelete("CASCADE").onUpdate("CASCADE");
+      tbl.integer("resource_id").references("resource_id").inTable("resources").onDelete("CASCADE").onUpdate("CASCADE");
     });
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists("icindekiler");
+  return knex.schema.dropTableIfExists("project_resources").dropTableIfExists("tasks").dropTableIfExists("resources").dropTableIfExists("projects");
 };
